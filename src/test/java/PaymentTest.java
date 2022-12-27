@@ -38,16 +38,9 @@ public class PaymentTest {
     @Test
     public void stringTest() throws NumericValueInvalidException {
         Payment p1 = new Payment("01.01.2018", "Gehalt", 2000);
+        Payment p2 = new Payment("01.01.2018", "Gehalt", 2000);
+        assertEquals(p2.toString(), p1.toString());
 
-        String testData = """
-                Date: 01.01.2018
-                Description: Gehalt
-                Amount: 2000.0
-                Calculated amount: 2000.0
-                Incoming Interest: 0.0
-                Outgoing Interest: 0.0
-                """;
-
-        assertEquals(testData, p1.toString());
+        assertThrows(NumericValueInvalidException.class , () -> new Payment("3213", "21", -22));
     }
 }

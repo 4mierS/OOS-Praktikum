@@ -1,7 +1,4 @@
-import bank.IncomingTransfer;
-import bank.OutgoingTransfer;
-import bank.PrivateBank;
-import bank.Transaction;
+import bank.*;
 import bank.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,11 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PrivateBankTest {
 
     private PrivateBank bank;
+    private PrivateBank bank2;
+    private List<Transaction> transactionLisa;
 
     @BeforeEach
     void init() {
         try {
             bank = new PrivateBank("Meine Bank", 0.2, 0.2);
+            bank2 = new PrivateBank(bank);
+            bank.createAccount("Lisa", transactionLisa);
+            Payment a = new Payment("01.01.2020", "Miete", 1000, 0.3, 0.4);
+            Transfer b = new Transfer("01.01.2020", "Miete", 1000, "Lisa", "Hans");
+            bank.addTransaction("Lisa", a);
+            bank.addTransaction("Lisa", b);
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -30,19 +36,26 @@ public class PrivateBankTest {
 
     @Test
     public void testConstructors() throws NumericValueInvalidException {
-        PrivateBank bank1 = new PrivateBank("Meine Bank", 0.2, 0.2);
-        PrivateBank bank2 = new PrivateBank(bank1);
-        assertEquals(bank1, bank2);
+        assertEquals(bank, bank2);
         bank2.setOutgoingInterest(0.3);
-        assertNotEquals(bank1, bank2);
+        assertNotEquals(bank, bank2);
+
+    }
+
+    @Test
+    public void toStringTest() throws ArithmeticException, NumericValueInvalidException {
+    PrivateBank bank1 = new PrivateBank("Meine Bank", 0.2, 0.2);
+    PrivateBank bank2 = new PrivateBank(bank1);
 
         // test toString
         String bank1String = bank1.toString();
         String bank2String = bank2.toString();
-        assertNotEquals(bank1String, bank2String);
-        bank2.setOutgoingInterest(0.2);
-        assertEquals(bank1, bank2);
+        assertEquals(bank1String, bank2String);
+        bank2.setOutgoingInterest(0.1);
+        String bank3String = bank2.toString();
+        assertNotEquals(bank1String, bank3String);
     }
+
 
     @Test
     public void createAccountTest() throws AccountAlreadyExistsException, NumericValueInvalidException, TransactionAlreadyExistException, TransactionAttributeException {
