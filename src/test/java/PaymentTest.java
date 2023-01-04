@@ -17,6 +17,16 @@ public class PaymentTest {
             Payment p3 = new Payment(p2);
             assertFalse(p2.equals(p1));
             assertTrue(p2.equals(p3));
+
+            try {
+                p3.setAmount(0);
+                assertThrows(NumericValueInvalidException.class, () -> new Payment(p3));
+            }catch (Exception e) {
+        System.out.println(e);
+    }
+
+
+
     }
 
     @Test
@@ -41,6 +51,6 @@ public class PaymentTest {
         Payment p2 = new Payment("01.01.2018", "Gehalt", 2000);
         assertEquals(p2.toString(), p1.toString());
 
-        assertThrows(NumericValueInvalidException.class , () -> new Payment("3213", "21", -22));
+        assertThrows(NumericValueInvalidException.class , () -> new Payment("3213", "21", 0));
     }
 }

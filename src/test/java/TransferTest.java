@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//tostring test is true but the \r get added to the string
 public class TransferTest {
     @Test
     public void testConstructors() throws NumericValueInvalidException {
@@ -26,6 +27,9 @@ public class TransferTest {
         assertNotEquals(t1, t4);
         assertNotEquals(t3, t4);
         assertEquals(t4, t5);
+
+        //amount is negative
+        assertThrows(NumericValueInvalidException.class, () -> new IncomingTransfer("01.01.2018", "Gehalt", -2000));
     }
 
     @Test
@@ -69,8 +73,11 @@ public class TransferTest {
                 Recipient: Ralf
                 """;
 
-        assertEquals(testData1, t1.toString());
-        assertNotEquals(testData1, t2.toString());
+        //Strings are equal, but the test fails because of the line breaks
         assertEquals(testData2, t2.toString());
+        assertEquals(t1.toString(), testData1);
+
+        assertNotEquals(testData1, t2.toString());
+
     }
 }

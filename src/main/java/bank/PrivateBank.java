@@ -51,7 +51,7 @@ public class PrivateBank implements Bank {
         if (accountsToTransactions.containsKey(account)) {
             throw new AccountAlreadyExistsException();
         }else{
-            accountsToTransactions.put(account, new ArrayList<>());
+            accountsToTransactions.put(account, new ArrayList<Transaction>());
         }
         try {
             for (Transaction transaction : transactions) {
