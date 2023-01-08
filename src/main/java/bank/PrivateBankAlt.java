@@ -243,6 +243,19 @@ public class PrivateBankAlt implements Bank {
     }
 
     @Override
+    public void deleteAccount(String account) throws AccountDoesNotExistException, IOException {
+        if (!accountsToTransactions.containsKey(account)) {
+            throw new AccountDoesNotExistException();
+        }
+        accountsToTransactions.remove(account);
+    }
+
+    @Override
+    public List<String> getAllAccounts() {
+        return new ArrayList<>(accountsToTransactions.keySet());
+    }
+
+    @Override
     public String toString() {
         String newLine = System.getProperty("line.separator");
         return ("Name: " + newLine + "Incoming Interest: " + incomingInterest + newLine + "Outgoing Interest: " + outgoingInterest +

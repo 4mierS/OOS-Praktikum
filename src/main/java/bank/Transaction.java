@@ -86,7 +86,7 @@ public abstract class Transaction implements CalculateBill {
      */
     public String toString() {
         String newLine = System.getProperty("line.separator");
-        return "Date: " + date + newLine + "Description: " + description + newLine + "Amount: " + amount + newLine + "Calculated amount: " + calculate() + newLine;
+        return newLine + "Date: " + date + newLine + "Description: " + description + newLine + "Amount: " + amount + newLine + "Calculated amount: " + calculate() + newLine;
     }
 
     /**

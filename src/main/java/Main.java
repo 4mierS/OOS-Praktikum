@@ -1,11 +1,13 @@
 import bank.*;
+import bank.exceptions.AccountDoesNotExistException;
 import bank.exceptions.NumericValueInvalidException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws AccountDoesNotExistException, NumericValueInvalidException {
         try {
             PrivateBank bank = new PrivateBank("Meine Bank", 0.2, 0.2);
             PrivateBankAlt bankAlt = new PrivateBankAlt("Meine BankAlt", 0.2, 0.2);
@@ -16,46 +18,35 @@ public class Main {
             transactions.add(new Payment("01.01.2019", "Miete", -500, 0.5, 0.5));
 
             List<Transaction> transactionsAlt = new ArrayList<>();
-            transactionsAlt.add(new Transfer("01.01.2019", "Gehalt", 2000, "Herr Mustermann", "Hans"));
-            transactionsAlt.add(new Transfer("01.01.2019", "Einkauf", 200, "Hans", "Rewe"));
             transactionsAlt.add(new Payment("01.01.2019", "Miete", -500, 0.1, 0.2));
 
             bank.createAccount("Hans", transactions);
             bankAlt.createAccount("Hans", transactionsAlt);
 
+            bank.createAccount("Franz", transactions);
+
             //Test Contains and add/remove Transaction
             try {
-                System.out.println("-----------------");
-                System.out.println("Test Contains and add/remove Transaction");
+//                System.out.println("-----------------");
+//                System.out.println("Test Contains and add/remove Transaction");
                 IncomingTransfer t = new IncomingTransfer("02.01.2019", "Test", 111, "Herr Mustermann", "Hans");
                 bank.addTransaction("Hans", t);
-                System.out.println(bank.containsTransaction("Hans", t));
+                bank.addTransaction("Franz", t);
+//                System.out.println(bank.containsTransaction("Hans", t));
                 bank.removeTransaction("Hans", t);
-                System.out.println(!bank.containsTransaction("Hans", t));
-                System.out.println("-----------------");
+//                System.out.println(!bank.containsTransaction("Hans", t));
+//                System.out.println("-----------------");
             } catch (Exception e) {
                 System.out.println(e);
             }
 
-
-            // Test amount Exception
-            try {
-                Transfer t = new Transfer("01.01.2019", "Gehalt", -2000, "Herr Mustermann", "Hans");
-            } catch (NumericValueInvalidException e) {
-                System.out.println("-----------------");
-                System.out.println("Test amount Exception");
-                System.out.println(e);
-                System.out.println("-----------------");
-
-            }
-            // Test incomingException Exception
             try {
                 PrivateBank b = new PrivateBank("Meine Bank", 0.3, 0.3);
             } catch (NumericValueInvalidException e) {
-                System.out.println("-----------------");
-                System.out.println("Test incomingException Exception");
-                System.out.println(e);
-                System.out.println("-----------------");
+//                System.out.println("-----------------");
+//                System.out.println("Test incomingException Exception");
+//                System.out.println(e);
+//                System.out.println("-----------------");
             }
 
             PrivateBank b = new PrivateBank("Meine Bank", 0.1, 0.2);
@@ -64,30 +55,43 @@ public class Main {
             PrivateBank bankCopy = new PrivateBank(b);
             PrivateBankAlt bankAltCopy = new PrivateBankAlt(bAlt);
 
-            System.out.println("-----------------");
-            System.out.println("Account Balance Test");
-            System.out.println(bank.getAccountBalance("Hans"));
-            System.out.println(bankAlt.getAccountBalance("Hans"));
-            System.out.println("-----------------");
+//            System.out.println("-----------------");
+//            System.out.println("Account Balance Test");
+//            System.out.println(bank.getAccountBalance("Hans"));
+//            System.out.println(bankAlt.getAccountBalance("Hans"));
+//            System.out.println("-----------------");
 
-            System.out.println("Equals/Copy Test");
-            System.out.println(bankCopy.equals(b));
-            System.out.println(bankAltCopy.equals(bAlt));
-            bankAlt.setOutgoingInterest(0.3);
-            System.out.println(bankAltCopy.equals(bAlt));
+//            System.out.println("Equals/Copy Test");
+//            System.out.println(bankCopy.equals(b));
+//            System.out.println(bankAltCopy.equals(bAlt));
+//            bankAlt.setOutgoingInterest(0.3);
+//            System.out.println(bankAltCopy.equals(bAlt));
 
             System.out.println("-----------------");
             System.out.println("Print Test");
             System.out.println("-----------------");
 
             System.out.println(bank);
+
+            System.out.println("-----------------");
+            System.out.println("Get All Accounts Test");
+            System.out.println("-----------------");
+
+            bank.createAccount("Kranz");
+            bank.createAccount("Lanz", transactions);
+            System.out.println(bank.getAllAccounts());
+
+            System.out.println("-----------------");
+            System.out .println("Delete Account Test");
+            System.out.println("-----------------");
+
+            bank.deleteAccount("Kranz");
+            System.out.println(bank.getAllAccounts());
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println(e.getMessage());
         }
 
         try {
-
             System.out.println();
             System.out.println();
             System.out.println();
@@ -95,7 +99,6 @@ public class Main {
             IncomingTransfer t = new IncomingTransfer("02.01.2019", "Test", 111, "Herr Mustermann", "Hans");
 
             JsonSerializerImpl serializer = new JsonSerializerImpl();
-
             //System.out.println(serializer.serialize(t));
 
             JsonDeserializerImpl<IncomingTransfer> deserializer = new JsonDeserializerImpl<IncomingTransfer>();
@@ -118,13 +121,12 @@ public class Main {
             bank.createAccount("Anna", transactions2);
 */
 
-            bank.setDirectoryName("test22");
+            bank.setDirectoryName("test2");
             bank.readAccounts();
             bank.setDirectoryName("test_12012022");
 
             bank.writeAccount("Hans");
             bank.writeAccount("Anna");
-
 
         } catch (Exception e) {
             System.out.println(e);

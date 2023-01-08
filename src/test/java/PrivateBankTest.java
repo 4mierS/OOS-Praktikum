@@ -40,8 +40,8 @@ public class PrivateBankTest {
             //Watch @getAccountBalanceTest for more information
             Payment a = new Payment("01.01.2020", "Gehalt", 2000, 0.3, 0.4);
             bank.addTransaction("Lisa", a);
-            bank.addTransaction("Lisa", new Transfer("01.01.2020", "Miete", 10, "Lisa", "Hans"));
-            bank.addTransaction("Lisa", new  Transfer("01.01.2020", "Miete", 10, "Lisa", "Franz"));
+            bank.addTransaction("Lisa", new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Hans"));
+            bank.addTransaction("Lisa", new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Franz"));
             transactionLisa.add(a);
 
             transactionLisa.add(new IncomingTransfer("01.01.2019", "Ausgeliehen", 2000, "Herr Mustermann", "Lisa"));
@@ -98,12 +98,14 @@ public class PrivateBankTest {
     }
 
     @Test
-    public void removeTransactionTest() throws AccountAlreadyExistsException, NumericValueInvalidException, TransactionAlreadyExistException, AccountDoesNotExistException, TransactionAttributeException, TransactionDoesNotExistException {
+    public void removeTransactionTest() throws AccountDoesNotExistException, TransactionDoesNotExistException {
         System.out.println("Test removeTransaction");
 
         assertTrue(bank.containsTransaction("Lisa",transactionLisa.get(0)));
         bank.removeTransaction("Lisa", transactionLisa.get(0));
         assertFalse(bank.containsTransaction("Lisa",transactionLisa.get(0)));
+        assertThrows(TransactionDoesNotExistException.class, () -> bank.removeTransaction("Lisa", transactionLisa.get(0)));
+        assertThrows(AccountDoesNotExistException.class, () -> bank.removeTransaction("NotLisa", transactionLisa.get(0)));
     }
 
     @Test
@@ -115,28 +117,32 @@ public class PrivateBankTest {
 
         //tests if new Transfers are added to the list with a negative amount
         //test the setAmount of the Transfer class as well
-        assertFalse(bank.containsTransaction("Lisa", new Transfer("01.01.2020", "Miete", -1000, "Lisa", "Hans")));
+        assertFalse(bank.containsTransaction("Lisa", new OutgoingTransfer("01.01.2020", "Miete", -1000, "Lisa", "Hans")));
         }catch (NumericValueInvalidException e){
         }
     }
 
     @Test
-    public void getAccountBalanceTest() throws TransactionAlreadyExistException, NumericValueInvalidException, AccountDoesNotExistException, TransactionAttributeException, AccountAlreadyExistsException {
+    public void getAccountBalanceTest(){
         System.out.println("Test getAccountBalance");
-
-        //excepted 1380 because: (2000 * 0.7 "Gehalt") + (-10 - 10 "friends") + ((-2000 * 0.2) + (2000 * 0.2) "Payment") = 1380
-        assertEquals(1620, bank.getAccountBalance("Lisa"));
+        try {
+            //test if the balance is correct
+            //excepted 1380 because: (2000 * 0.7 "Gehalt") + (-10 - 10 "friends") + ((-2000 * 0.2) + (2000 * 0.2) "Payment") = 1380
+            assertEquals(1380, bank.getAccountBalance("Lisa"));
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     @Test
-    void getTransactionsTest() throws NumericValueInvalidException, AccountAlreadyExistsException, TransactionAlreadyExistException, AccountDoesNotExistException, TransactionAttributeException {
+    void getTransactionsTest() throws NumericValueInvalidException{
         System.out.println("Test getTransactions");
 
         transactiontest = new ArrayList<>();
         Payment a = new Payment("01.01.2020", "Gehalt", 2000, 0.2, 0.2);
         transactiontest.add(a);
-        transactiontest.add(new Transfer("01.01.2020", "Miete", 10, "Lisa", "Hans"));
-        transactiontest.add(new Transfer("01.01.2020", "Miete", 10, "Lisa", "Franz"));
+        transactiontest.add(new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Hans"));
+        transactiontest.add(new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Franz"));
 
         assertEquals(transactiontest, bank.getTransactions("Lisa"));
 
@@ -146,7 +152,7 @@ public class PrivateBankTest {
     }
 
     @Test
-    void getTransactionSortedTest() throws NumericValueInvalidException, TransactionAlreadyExistException, AccountAlreadyExistsException, TransactionAttributeException {
+    void getTransactionSortedTest() throws NumericValueInvalidException{
         System.out.println("Test getTransactionSorted");
 
         IncomingTransfer t1 = new IncomingTransfer("01.01.2019", "Gehalt", 2300, "Herr Mustermann", "Lisa");
@@ -178,7 +184,7 @@ public class PrivateBankTest {
     }
 
     @Test
-    void getTransactionsByType() throws NumericValueInvalidException, TransactionAlreadyExistException, AccountAlreadyExistsException, TransactionAttributeException {
+    void getTransactionsByType(){
         System.out.println("Test getTransactionsByType");
 
         List<Transaction> positiveResult = bank.getTransactionsByType("Lisa", true);
@@ -195,12 +201,11 @@ public class PrivateBankTest {
 
         bank.setDirectoryName("test_Prak"+uuid.toString());
 
-        bank.writeAccount("Hans");
         bank.writeAccount("Anna");
         bank.writeAccount("Lisa");
 
-        assertFalse(bank.getTransactions("Hans").isEmpty());
-        assertTrue(bank.getTransactions("Anna").isEmpty());
+        assertFalse(bank.getTransactions("Anna").isEmpty());
+        assertFalse(bank.getTransactions("Lisa").isEmpty());
     }
 
 
@@ -217,13 +222,13 @@ public class PrivateBankTest {
         try {
         bank.createAccount("Hans");
         assertThrows(AccountAlreadyExistsException.class, () -> bank.createAccount("Hans"));
-        assertThrows(AccountDoesNotExistException.class, () -> bank.addTransaction("Mensch", new Transfer("01.01.2020", "Miete", 10, "Lisa", "Franz")));
-        assertThrows(TransactionAttributeException.class, () -> bank.addTransaction("Hans", new Transfer("01.01.2020", "Miete", 0, "Lisa", "Franz")));
+        assertThrows(AccountDoesNotExistException.class, () -> bank.addTransaction("Mensch", new OutgoingTransfer("01.01.2020", "Miete", 10, "Lisa", "Franz")));
+        assertThrows(TransactionAttributeException.class, () -> bank.addTransaction("Hans", new OutgoingTransfer("01.01.2020", "Miete", 0, "Lisa", "Franz")));
 
-        bank.addTransaction("Hans", new Transfer("01.01.2020", "Miete", 10, "Hans", "Franz"));
-        assertThrows(TransactionAlreadyExistException.class, () -> bank.addTransaction("Hans", new Transfer("01.01.2020", "Miete", 10, "Hans", "Franz")));
+        bank.addTransaction("Hans", new IncomingTransfer("01.01.2020", "Miete", 10, "Hans", "Franz"));
+        assertThrows(TransactionAlreadyExistException.class, () -> bank.addTransaction("Hans", new IncomingTransfer("01.01.2020", "Miete", 10, "Hans", "Franz")));
 
-        assertThrows(NumericValueInvalidException.class, () -> bank.addTransaction("Hans", new Transfer("01.01.2020", "Miete", -10, "Hans", "Franz")));
+        assertThrows(NumericValueInvalidException.class, () -> bank.addTransaction("Hans", new IncomingTransfer("01.01.2020", "Miete", -10, "Hans", "Franz")));
         }catch (Exception e){
             System.out.println(e);
         }

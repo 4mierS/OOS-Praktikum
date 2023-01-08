@@ -80,8 +80,10 @@ public class PrivateBank implements Bank {
         }
 
         if (transaction instanceof Payment payment) {
-            ((Payment) transaction).setIncomingInterest(this.incomingInterest);
-            ((Payment) transaction).setOutgoingInterest(this.outgoingInterest);
+//            ((Payment) transaction).setIncomingInterest(this.incomingInterest);
+//            ((Payment) transaction).setOutgoingInterest(this.outgoingInterest);
+            payment.setIncomingInterest(payment.getIncomingInterest());
+            payment.setOutgoingInterest(payment.getOutgoingInterest());
             accountsToTransactions.get(account).add(transaction);
         } else if (transaction instanceof Transfer transfer) {
             accountsToTransactions.get(account);
@@ -162,18 +164,20 @@ public class PrivateBank implements Bank {
     public String toString() {
         String newLine = System.getProperty("line.separator");
         return ("Name: " + name + newLine + "Incoming Interest: " + incomingInterest + newLine + "Outgoing Interest: " + outgoingInterest +
-                newLine + "Accounts: " + newLine + mapToString(accountsToTransactions));
+                newLine + "Accounts: " + newLine + newLine + mapToString(accountsToTransactions));
     }
 
     public String mapToString(HashMap<String, List<Transaction>> map){
         String newLine = System.getProperty("line.separator");
         StringBuilder mapAsString = new StringBuilder("{");
         for (String key : map.keySet()) {
-            mapAsString.append(key).append("=").append(newLine).append(map.get(key));
+            mapAsString.append(key).append(" = ").append(map.get(key));
         }
-        if(map.size() > 0){
-            mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("}");
-        }else{
+        if(map.size() > 2){
+            mapAsString.delete(mapAsString.length()-2, mapAsString.length()).append("]");
+
+        }
+        else{
             mapAsString.append("}");
         }
         return mapAsString.toString();
@@ -254,6 +258,25 @@ public class PrivateBank implements Bank {
         }
     }
 
+    @Override
+    public void deleteAccount(String account) throws AccountDoesNotExistException, IOException {
+        if (!accountsToTransactions.containsKey(account)) {
+            throw new AccountDoesNotExistException();
+        }
+        accountsToTransactions.remove(account);
+        try{
+        File file = new File("persist/"+directoryName+"/Konto_"+account+".json");
+        file.delete();
+        }catch (Exception e){
+            throw new IOException();
+        }
+    }
+
+    @Override
+    public List<String> getAllAccounts() {
+        return new ArrayList<>(accountsToTransactions.keySet());
+    }
+
 
     //region Getters and Setters
 
@@ -303,7 +326,6 @@ public class PrivateBank implements Bank {
     /**
      * Set the directory name to save/persist files to
      *
-     * @param the directory name
      */
     public String getDirectoryName() {
         return directoryName;

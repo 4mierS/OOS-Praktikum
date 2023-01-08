@@ -55,23 +55,24 @@ public class TransferTest {
         IncomingTransfer t1 = new IncomingTransfer("01.01.2019", "Gehalt", 2000, "Ralf", "Lisa");
         OutgoingTransfer t2 = new OutgoingTransfer("01.01.2019", "Gehalt", 2000, "Lisa", "Ralf");
 
-        String testData1 = """
+        String testData1 =
+                """
                 Date: 01.01.2019
                 Description: Gehalt
                 Amount: 2000.0
                 Calculated amount: 2000.0
-                Sender: Ralf
-                Recipient: Lisa
-                """;
-
-        String testData2 = """
-                Date: 01.01.2019
-                Description: Gehalt
-                Amount: 2000.0
-                Calculated amount: -2000.0
                 Sender: Lisa
                 Recipient: Ralf
                 """;
+
+        String testData2 = """
+               Date: 01.01.2019
+               Decription: Gehalt
+               Amount: 2000.0
+               Calclated amount: -2000.0
+               Sender: Lisa
+               Recipient: Ralf
+               """;
 
         //Strings are equal, but the test fails because of the line breaks
         assertEquals(testData2, t2.toString());
