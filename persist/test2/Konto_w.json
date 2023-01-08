@@ -1,0 +1,19 @@
+[{
+  "INSTANCE": {
+    "sender": "dad",
+    "recipient": "w",
+    "date": "2",
+    "description": "2",
+    "amount": 2.0
+  },
+  "CLASSNAME": "IncomingTransfer"
+}, {
+  "INSTANCE": {
+    "sender": "w",
+    "recipient": "ww",
+    "date": "2",
+    "description": "2",
+    "amount": 2.0
+  },
+  "CLASSNAME": "OutgoingTransfer"
+}]
