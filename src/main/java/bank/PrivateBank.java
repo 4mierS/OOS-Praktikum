@@ -108,6 +108,13 @@ public class PrivateBank implements Bank {
         accountsToTransactions.get(account).remove(transaction);
     }
 
+    @Override
+    public void removeAllTransactions(String account) throws AccountDoesNotExistException {
+        if (accountsToTransactions.get(account) == null){
+            throw new AccountDoesNotExistException();
+        } accountsToTransactions.get(account).clear();
+    }
+
 
     @Override
     public boolean containsTransaction(String account, Transaction transaction) {
@@ -246,13 +253,8 @@ public class PrivateBank implements Bank {
             }
             catch (IOException e) {
                 e.printStackTrace();
-            } catch (TransactionAlreadyExistException e) {
-                throw new RuntimeException(e);
-            } catch (NumericValueInvalidException e) {
-                throw new RuntimeException(e);
-            } catch (AccountAlreadyExistsException e) {
-                throw new RuntimeException(e);
-            } catch (TransactionAttributeException e) {
+            } catch (TransactionAlreadyExistException | AccountAlreadyExistsException | NumericValueInvalidException |
+                     TransactionAttributeException e) {
                 throw new RuntimeException(e);
             }
         }

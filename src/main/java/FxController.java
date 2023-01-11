@@ -96,7 +96,7 @@ public class FxController {
     }
 
     public void onDelete(ActionEvent event, String accountName) throws AccountDoesNotExistException, IOException {
-        System.out.println("Loesche: " + accountName);
+        System.out.println("Delete: " + accountName);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete account");
@@ -128,7 +128,7 @@ public class FxController {
                 ContextMenu contextMenu = new ContextMenu();
 
                 MenuItem selectItem = new MenuItem();
-                selectItem.textProperty().bind(Bindings.format("Auswahlen \"%s\"", cell.itemProperty()));
+                selectItem.textProperty().bind(Bindings.format("Select \"%s\"", cell.itemProperty()));
                 selectItem.setOnAction(event -> {
                     try {
                         onSelect(event, cell.getItem());
@@ -139,7 +139,7 @@ public class FxController {
                 });
 
                 MenuItem deleteItem = new MenuItem();
-                deleteItem.textProperty().bind(Bindings.format("Loeschen \"%s\"", cell.itemProperty()));
+                deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
                 deleteItem.setOnAction(event -> {
                     try {
                         onDelete(event, cell.getItem());
@@ -147,6 +147,7 @@ public class FxController {
                         throw new RuntimeException(e);
                     }
                 });
+
 
 
                 contextMenu.getItems().addAll(selectItem, deleteItem);

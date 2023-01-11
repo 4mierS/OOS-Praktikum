@@ -45,6 +45,7 @@ public class AccountViewController {
     @FXML
     Button addTransactionBtn;
 
+
     @FXML
     TextField transactionDateField;
 
@@ -78,6 +79,7 @@ public class AccountViewController {
     @FXML
     GridPane gridSenderReceiver;
 
+
     private List<Transaction> transactions;
     private PrivateBank bank;
     private String accountName;
@@ -85,6 +87,8 @@ public class AccountViewController {
     public AccountViewController() throws NumericValueInvalidException {
 
     }
+
+
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
@@ -99,7 +103,7 @@ public class AccountViewController {
     }
 
     public void setLabelAccountBalance(Double accountBalance) {
-        labelAccountBalance.setText("Kontostand: " + String.valueOf(accountBalance));
+        labelAccountBalance.setText("Account Balance: " + String.valueOf(accountBalance));
     }
 
     public void setAccount(String accountName, PrivateBank bank) throws AccountDoesNotExistException {
@@ -114,7 +118,7 @@ public class AccountViewController {
     }
 
     private void onDelete(ActionEvent event, Transaction transaction) throws AccountDoesNotExistException, TransactionDoesNotExistException {
-        System.out.println("Loesche: " + transaction);
+        System.out.println("Delete: " + transaction);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Transaction");
         alert.setContentText("Do you really want to delete the transaction?");
@@ -194,6 +198,8 @@ public class AccountViewController {
         }
     }
 
+
+
     private void cleanDialogUp() {
         transactionDateField.clear();
         transactionDescriptionField.clear();
@@ -241,7 +247,7 @@ public class AccountViewController {
                 ContextMenu contextMenu = new ContextMenu();
 
                 MenuItem deleteItem = new MenuItem();
-                deleteItem.textProperty().bind(Bindings.format("Loeschen \"%s\"", cell.itemProperty()));
+                deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
                 deleteItem.setOnAction(event -> {
                     try {
                         onDelete(event, cell.getItem());

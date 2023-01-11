@@ -136,6 +136,13 @@ public class PrivateBankAlt implements Bank {
         accountsToTransactions.get(account).remove(transaction);
     }
 
+    @Override
+    public void removeAllTransactions(String account) throws AccountDoesNotExistException {
+        if (accountsToTransactions.get(account) == null){
+            throw new AccountDoesNotExistException();
+        } accountsToTransactions.get(account).clear();
+    }
+
     /**
      * Checks whether the specified transaction for a given account exists.
      *

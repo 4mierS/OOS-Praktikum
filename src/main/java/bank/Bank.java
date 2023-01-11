@@ -57,6 +57,13 @@ public interface Bank {
             throws AccountDoesNotExistException, TransactionDoesNotExistException;
 
     /**
+     * Removes all transaction from an account.
+     * @param account
+     * @throws AccountDoesNotExistException
+     * */
+    void removeAllTransactions(String account) throws AccountDoesNotExistException;
+
+    /**
      * Checks whether the specified transaction for a given account exists.
      *
      * @param account     the account from which the transaction is checked

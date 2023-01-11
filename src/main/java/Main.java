@@ -19,6 +19,7 @@ public class Main {
 
             List<Transaction> transactionsAlt = new ArrayList<>();
             transactionsAlt.add(new Payment("01.01.2019", "Miete", -500, 0.1, 0.2));
+            bank.createAccount("Anna");
 
             bank.createAccount("Hans", transactions);
             bankAlt.createAccount("Hans", transactionsAlt);
@@ -31,6 +32,7 @@ public class Main {
 //                System.out.println("Test Contains and add/remove Transaction");
                 IncomingTransfer t = new IncomingTransfer("02.01.2019", "Test", 111, "Herr Mustermann", "Hans");
                 bank.addTransaction("Hans", t);
+                bank.addTransaction("Anna", t);
                 bank.addTransaction("Franz", t);
 //                System.out.println(bank.containsTransaction("Hans", t));
                 bank.removeTransaction("Hans", t);
@@ -92,22 +94,17 @@ public class Main {
         }
 
         try {
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println("GSON TEST");
-            IncomingTransfer t = new IncomingTransfer("02.01.2019", "Test", 111, "Herr Mustermann", "Hans");
-
+            System.out.println("\n\n\nGSON TEST");
+            IncomingTransfer t = new IncomingTransfer("02.01.2019", "Test", 111, "Herr Mustermann", "Anna");
             JsonSerializerImpl serializer = new JsonSerializerImpl();
-            //System.out.println(serializer.serialize(t));
-
+            System.out.println(serializer.serialize(t));
             JsonDeserializerImpl<IncomingTransfer> deserializer = new JsonDeserializerImpl<IncomingTransfer>();
 
             IncomingTransfer iT = deserializer.deserialize(serializer.serialize(t));
 
             PrivateBank bank = new PrivateBank("Meine Bank", 0.2, 0.2);
 
-            /*
+/*
             List<Transaction> transactions = new ArrayList<>();
             transactions.add(new IncomingTransfer("01.01.2019", "Gehalt", 2000, "Herr Mustermann", "Hans"));
             transactions.add(new OutgoingTransfer("01.01.2019", "Einkauf", 200, "Hans", "Rewe"));
@@ -123,9 +120,7 @@ public class Main {
 
             bank.setDirectoryName("test2");
             bank.readAccounts();
-            bank.setDirectoryName("test_12012022");
 
-            bank.writeAccount("Hans");
             bank.writeAccount("Anna");
 
         } catch (Exception e) {

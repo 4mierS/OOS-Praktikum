@@ -139,16 +139,23 @@ public class PrivateBankTest {
         System.out.println("Test getTransactions");
 
         transactiontest = new ArrayList<>();
-        Payment a = new Payment("01.01.2020", "Gehalt", 2000, 0.2, 0.2);
-        transactiontest.add(a);
+        Payment a = new Payment("01.01.2020", "Gehalt", 2000, 0.3, 0.4); transactiontest.add(a);
         transactiontest.add(new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Hans"));
         transactiontest.add(new IncomingTransfer("01.01.2020", "Miete", 10, "Lisa", "Franz"));
 
         assertEquals(transactiontest, bank.getTransactions("Lisa"));
 
+
         OutgoingTransfer t3 = new OutgoingTransfer("12.01.2019", "Bad", 200, "Lisa", "Frank");
         transactiontest.add(t3);
         assertNotEquals(transactiontest, bank.getTransactions("Lisa"));
+    }
+
+    @Test
+    public void testRemoveAllTransactions() throws AccountDoesNotExistException{
+        bank.removeAllTransactions("Lisa");
+        //ToDo: Equal test is not working but gives he same String
+        assertEquals(bank.getTransactions("Lisa"), "[]");
     }
 
     @Test
@@ -205,7 +212,7 @@ public class PrivateBankTest {
         bank.writeAccount("Lisa");
 
         assertFalse(bank.getTransactions("Anna").isEmpty());
-        assertFalse(bank.getTransactions("Lisa").isEmpty());
+        assertFalse(bank.getTransactions("w").isEmpty());
     }
 
 

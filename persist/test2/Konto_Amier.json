@@ -1,0 +1,19 @@
+[{
+  "INSTANCE": {
+    "sender": "Firma",
+    "recipient": "Amier",
+    "date": "09.01.2022",
+    "description": "Amount",
+    "amount": 2000.0
+  },
+  "CLASSNAME": "IncomingTransfer"
+}, {
+  "INSTANCE": {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.19,
+    "date": "09.01.2022",
+    "description": "Spotify Music",
+    "amount": -10.0
+  },
+  "CLASSNAME": "Payment"
+}]
