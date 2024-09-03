@@ -155,7 +155,7 @@ public class PrivateBankTest {
     public void testRemoveAllTransactions() throws AccountDoesNotExistException{
         bank.removeAllTransactions("Lisa");
         //ToDo: Equal test is not working but gives he same String
-        assertEquals(bank.getTransactions("Lisa"), "[]");
+        assertEquals(bank.getTransactions("Lisa"), List.of());
     }
 
     @Test
