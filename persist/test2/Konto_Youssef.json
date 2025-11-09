@@ -1,0 +1,19 @@
+[{
+  "INSTANCE": {
+    "sender": "Annaaaa",
+    "recipient": "Youssef",
+    "date": "08.12.2024",
+    "description": "Ich habe genug Geld auf Konto",
+    "amount": 2.0E8
+  },
+  "CLASSNAME": "IncomingTransfer"
+}, {
+  "INSTANCE": {
+    "sender": "Youssef",
+    "recipient": "Amier",
+    "date": "08.12.2024",
+    "description": "Ich gebe dir bisschen Kleingeld Amier",
+    "amount": 50.0
+  },
+  "CLASSNAME": "OutgoingTransfer"
+}]

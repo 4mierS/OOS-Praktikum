@@ -1,5 +1,14 @@
 [{
   "INSTANCE": {
+    "incomingInterest": 0.3,
+    "outgoingInterest": 0.4,
+    "date": "01.01.2020",
+    "description": "Gehalt",
+    "amount": 2000.0
+  },
+  "CLASSNAME": "Payment"
+}, {
+  "INSTANCE": {
     "sender": "Lisa",
     "recipient": "Hans",
     "date": "01.01.2020",
@@ -16,13 +25,4 @@
     "amount": 10.0
   },
   "CLASSNAME": "IncomingTransfer"
-}, {
-  "INSTANCE": {
-    "sender": "Anna",
-    "recipient": "Amier",
-    "date": "1111111",
-    "description": "111",
-    "amount": 1.1111111111E10
-  },
-  "CLASSNAME": "OutgoingTransfer"
 }]

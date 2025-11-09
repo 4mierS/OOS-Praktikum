@@ -6,12 +6,13 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class FxApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent application = FXMLLoader.load(getClass().getResource("MainView.fxml"));
+        Parent application = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Scene scene = new Scene(application);
 
         stage.setScene(scene);
