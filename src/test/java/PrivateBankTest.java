@@ -93,7 +93,7 @@ public class PrivateBankTest {
     public void addTransactionTest() throws AccountAlreadyExistsException, NumericValueInvalidException, TransactionAlreadyExistException, AccountDoesNotExistException, TransactionAttributeException {
         System.out.println("Test addTransaction");
 
-        assertTrue(bank.containsTransaction("Lisa",transactionLisa.get(0)));
+        assertTrue(bank.containsTransaction("Lisa",transactionLisa.getFirst()));
         assertEquals(3, bank.getTransactions("Lisa").size());
     }
 
@@ -101,11 +101,11 @@ public class PrivateBankTest {
     public void removeTransactionTest() throws AccountDoesNotExistException, TransactionDoesNotExistException {
         System.out.println("Test removeTransaction");
 
-        assertTrue(bank.containsTransaction("Lisa",transactionLisa.get(0)));
-        bank.removeTransaction("Lisa", transactionLisa.get(0));
-        assertFalse(bank.containsTransaction("Lisa",transactionLisa.get(0)));
-        assertThrows(TransactionDoesNotExistException.class, () -> bank.removeTransaction("Lisa", transactionLisa.get(0)));
-        assertThrows(AccountDoesNotExistException.class, () -> bank.removeTransaction("NotLisa", transactionLisa.get(0)));
+        assertTrue(bank.containsTransaction("Lisa",transactionLisa.getFirst()));
+        bank.removeTransaction("Lisa", transactionLisa.getFirst());
+        assertFalse(bank.containsTransaction("Lisa",transactionLisa.getFirst()));
+        assertThrows(TransactionDoesNotExistException.class, () -> bank.removeTransaction("Lisa", transactionLisa.getFirst()));
+        assertThrows(AccountDoesNotExistException.class, () -> bank.removeTransaction("NotLisa", transactionLisa.getFirst()));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class PrivateBankTest {
         System.out.println("Test containsTransaction");
 
         try{
-        assertTrue(bank.containsTransaction("Lisa", transactionLisa.get(0)));
+        assertTrue(bank.containsTransaction("Lisa", transactionLisa.getFirst()));
 
         //tests if new Transfers are added to the list with a negative amount
         //test the setAmount of the Transfer class as well
@@ -169,8 +169,8 @@ public class PrivateBankTest {
             bank.addTransaction("Lisa", t1);
             bank.addTransaction("Lisa", t2);
 
-            assertEquals(t1, bank.getTransactionsSorted("Lisa", false).get(0));
-            assertEquals(t2, bank.getTransactionsSorted("Lisa", true).get(0));
+            assertEquals(t1, bank.getTransactionsSorted("Lisa", false).getFirst());
+            assertEquals(t2, bank.getTransactionsSorted("Lisa", true).getFirst());
 
         OutgoingTransfer t3 = new OutgoingTransfer("12.01.2019", "Bad", 200, "Lisa", "Frank");
         transactionLisa.add(t3);
