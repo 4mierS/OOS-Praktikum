@@ -55,7 +55,7 @@
                 <groupId>org.junit</groupId>
                 <scope>import</scope>
                 <type>pom</type>
-                <version>5.8.0</version>
+                <version>5.12.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -67,7 +67,7 @@
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>19</javafx.version>
-        <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
+        <javafx.version>25</javafx.version>
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     </properties>
 </project>
