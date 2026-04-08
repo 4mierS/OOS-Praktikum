@@ -212,7 +212,7 @@ public class PrivateBankTest {
         bank.writeAccount("Lisa");
 
         assertFalse(bank.getTransactions("Anna").isEmpty());
-        assertFalse(bank.getTransactions("w").isEmpty());
+        assertFalse(bank.getTransactions("Lisa").isEmpty());
     }
 
 
