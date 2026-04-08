@@ -22,6 +22,12 @@ java -version
 mvn -version
 ```
 
+Project helper (recommended):
+
+```bash
+./scripts/mvn-latest.sh -v
+```
+
 If `mvn` is not available in your PATH, use the full binary path:
 
 ```bash
@@ -33,43 +39,43 @@ If `mvn` is not available in your PATH, use the full binary path:
 ### 1) Compile main + test sources
 
 ```bash
-mvn clean test-compile
+./scripts/mvn-latest.sh clean test-compile
 ```
 
 ### 2) Run all tests
 
 ```bash
-mvn clean test
+./scripts/mvn-latest.sh clean test
 ```
 
 ### 3) Run one test class
 
 ```bash
-mvn -Dtest=PrivateBankTest test
+./scripts/mvn-latest.sh -Dtest=PrivateBankTest test
 ```
 
 ### 4) Run one test method
 
 ```bash
-mvn -Dtest=PrivateBankTest#getAccountBalanceTest test
+./scripts/mvn-latest.sh -Dtest=PrivateBankTest#getAccountBalanceTest test
 ```
 
 ### 5) Run JavaFX app
 
 ```bash
-mvn javafx:run
+./scripts/mvn-latest.sh clean javafx:run
 ```
 
 ### 6) Build artifact
 
 ```bash
-mvn clean package
+./scripts/mvn-latest.sh clean package
 ```
 
 ### 7) Full validation lifecycle
 
 ```bash
-mvn clean verify
+./scripts/mvn-latest.sh clean verify
 ```
 
 ## Where To Find Things
@@ -86,22 +92,23 @@ mvn clean verify
 Quick dev cycle:
 
 ```bash
-mvn -q test
+./scripts/mvn-latest.sh -q test
 ```
 
 Before pushing:
 
 ```bash
-mvn clean verify
+./scripts/mvn-latest.sh clean verify
 ```
 
 Run app locally:
 
 ```bash
-mvn javafx:run
+./scripts/mvn-latest.sh clean javafx:run
 ```
 
 ## Notes
 
 - Current Java release target is set in `pom.xml` via `maven.compiler.release=25`.
 - JavaFX entry point is configured in `pom.xml` as `FxApplication`.
+- `scripts/mvn-latest.sh` forces Java 25 + Maven 3.9.14 for consistent local runs.
