@@ -43,4 +43,15 @@ public class IncomingTransfer extends Transfer {
         return getAmount();
     }
 
+    @Override
+    public String toString() {
+        String newLine = System.getProperty("line.separator");
+        return "Date: " + date + newLine
+            + "Description: " + description + newLine
+            + "Amount: " + amount + newLine
+            + "Calculated amount: " + calculate() + newLine
+                + "Sender: " + getRecipient() + newLine
+                + "Recipient: " + getSender() + newLine;
+    }
+
 }

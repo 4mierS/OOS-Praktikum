@@ -1,0 +1,28 @@
+[{
+  "INSTANCE": {
+    "sender": "Lisa",
+    "recipient": "Hans",
+    "date": "01.01.2020",
+    "description": "Miete",
+    "amount": 10.0
+  },
+  "CLASSNAME": "IncomingTransfer"
+}, {
+  "INSTANCE": {
+    "sender": "Lisa",
+    "recipient": "Franz",
+    "date": "01.01.2020",
+    "description": "Miete",
+    "amount": 10.0
+  },
+  "CLASSNAME": "IncomingTransfer"
+}, {
+  "INSTANCE": {
+    "sender": "Anna",
+    "recipient": "Amier",
+    "date": "1111111",
+    "description": "111",
+    "amount": 1.1111111111E10
+  },
+  "CLASSNAME": "OutgoingTransfer"
+}]

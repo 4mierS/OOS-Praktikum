@@ -126,7 +126,17 @@ public class PrivateBank implements Bank {
     public double getAccountBalance(String account) {
         double balance = 0;
         for (Transaction transaction : accountsToTransactions.get(account)) {
+            if (transaction instanceof Transfer transfer) {
+                if (account.equals(transfer.getSender()) && !account.equals(transfer.getRecipient())) {
+                    balance -= transfer.getAmount();
+                } else if (account.equals(transfer.getRecipient()) && !account.equals(transfer.getSender())) {
+                    balance += transfer.getAmount();
+                } else {
+                    balance += transaction.calculate();
+                }
+            } else {
                 balance += transaction.calculate();
+            }
         }
         return balance;
     }
